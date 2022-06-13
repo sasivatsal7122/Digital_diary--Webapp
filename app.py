@@ -6,9 +6,10 @@ import streamlit_authenticator as stauth
 import sqlite3
 
 
-st.set_page_config(page_title="Digital Diary",page_icon='📚')
+st.set_page_config(page_title="Digital Diary",page_icon='📚',layout="wide")
 
 st.title("Welcome Digital Diary")
+
 st.markdown("<p><TT>Designed and Developed by <a style='text-decoration:none;color:red' target='_blank' href='https://github.com/sasivatsal7122'>B.Sasi Vatsal</a></TT></p>", unsafe_allow_html=True)
 
 user_option = option_menu(None, ["Sign-In", "Sign-Up"], 
