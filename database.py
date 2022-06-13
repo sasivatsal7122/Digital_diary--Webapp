@@ -10,6 +10,7 @@ def create_user_record():
 
     #Creating table as per requirement
     sql ='''CREATE TABLE USERS(
+    uNAME CHAR(20) NOT NULL,
     USERNAME CHAR(20) NOT NULL,
     USER_EMAIL CHAR(20),
     PASS_WORD CHAR(20) NOT NULL
@@ -42,13 +43,11 @@ def create_userposts_record():
     
 
 
-def create_newuser(USERNAME,USER_EMAIL,PASS_WORD):
+def create_newuser(uNAME,USERNAME,USER_EMAIL,PASS_WORD):
     conn = sqlite3.connect('user_record.db')
     cursor = conn.cursor()
     
-    cursor.execute('''INSERT INTO USERS(
-   USERNAME, USER_EMAIL, PASS_WORD) VALUES 
-   (USERNAME, USER_EMAIL, PASS_WORD)''')
+    cursor.execute('INSERT INTO USERS(uNAME,USERNAME, USER_EMAIL, PASS_WORD) VALUES (?,?, ?, ?)',(uNAME,USERNAME, USER_EMAIL, PASS_WORD))
     conn.commit()
     conn.close()
 
@@ -64,3 +63,5 @@ def create_newpost(USERKEY,USER_POST,C_DATE,C_TIME):
     conn.commit()
     conn.close()
     
+#create_user_record()
+# create_userposts_record()
