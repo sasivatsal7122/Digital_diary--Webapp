@@ -36,10 +36,12 @@ def main(username,name):
             d = user_input_date.strftime('%Y-%m-%d')
             userkey = str(username)+str(d)
             user_record_post = db.get_user_post(userkey)
-            
+            write_date,write_time = db.get_dateandtime(userkey)
             try: 
-                
+                if write_date!='-':
+                    c1.warning(f"Written on {write_date} at {write_time} hrs")
                 with c1:
+                    
                     user_post = st_ace(
                         value=f"{user_record_post[0]}", 
                         language='plain_text',

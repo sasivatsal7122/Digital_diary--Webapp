@@ -5,6 +5,9 @@ import database as db
 import streamlit_authenticator as stauth
 import sqlite3
 import app_dashboard
+import random
+import string
+
 
 def run_login():
     st.set_page_config(page_title="Digital Diary",page_icon='📚',layout="wide")
@@ -43,7 +46,8 @@ def run_login():
                 NAME_LS = [item for t in NAME_LS for item in t]
                 
                 if sign_up_username not in USERNAME_LS and name not in NAME_LS:
-                    db.create_newuser(name,sign_up_username,email,sign_up_password)
+                    random_username = ''.join(random.choices(string.ascii_uppercase + string.digits, k = 15))
+                    db.create_newuser(random_username,name,sign_up_username,email,sign_up_password)
                     st.success(f"{sign_up_username}/{name} your account has been created successfully !")
                     st.balloons()
                 else:

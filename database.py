@@ -10,6 +10,7 @@ def create_user_record():
 
     #Creating table as per requirement
     sql ='''CREATE TABLE USERS(
+    RANDOM_USERNAME CHAR(20) NOT NULL,
     uNAME CHAR(20) NOT NULL,
     USERNAME CHAR(20) NOT NULL,
     USER_EMAIL CHAR(20),
@@ -43,11 +44,11 @@ def create_userposts_record():
     
 
 
-def create_newuser(uNAME,USERNAME,USER_EMAIL,PASS_WORD):
+def create_newuser(RANDOM_USERNAME,uNAME,USERNAME,USER_EMAIL,PASS_WORD):
     conn = sqlite3.connect('user_record.db')
     cursor = conn.cursor()
     
-    cursor.execute('INSERT INTO USERS(uNAME,USERNAME, USER_EMAIL, PASS_WORD) VALUES (?,?, ?, ?)',(uNAME,USERNAME, USER_EMAIL, PASS_WORD))
+    cursor.execute('INSERT INTO USERS(RANDOM_USERNAME,uNAME,USERNAME, USER_EMAIL, PASS_WORD) VALUES (?,?,?, ?, ?)',(RANDOM_USERNAME,uNAME,USERNAME, USER_EMAIL, PASS_WORD))
     conn.commit()
     conn.close()
 
@@ -84,8 +85,24 @@ def update_user_post(USERKEY,USER_POST):
     conn.commit()
     conn.close()
 
-    
-    
+def get_dateandtime(USERKEY):
+    conn = sqlite3.connect('diary.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT C_DATE,C_TIME FROM USERS_POSTS WHERE USERKEY=(?)',(USERKEY,))
+    date_time = cursor.fetchone()
+    conn.commit()
+    conn.close()
+    if date_time!=None:
+        return date_time[0],date_time[1]
+    else:
+        return '-','-'
+
+
+def get_all_usernames():
+    conn = sqlite3.connect('user_record.db')
+    cursor = conn.cursor()
+    usernames_list = [usernames[0] for usernames in cursor.execute("SELECT RANDOM_USERNAME FROM USERS")] 
+    return usernames_list   
     
     
 #create_user_record()
