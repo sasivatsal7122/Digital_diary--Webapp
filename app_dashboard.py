@@ -3,8 +3,14 @@ import streamlit as st
 from streamlit_ace import st_ace,THEMES
 import datetime
 from datetime import timedelta
+import sqlite3
+import pywhatkit as kit
+from fpdf import FPDF
+from PIL import Image
+import os
+import img2pdf
 
-from sympy import use
+
 import database as db
 from datetime import date
 
@@ -77,6 +83,14 @@ def main(username,name):
                         show_print_margin=False, 
                         annotations=None, 
                     )
+            soft_copy_btn = st.button("Make Soft Copy")
+            if soft_copy_btn:
+                conn = sqlite3.connect('user_record.db')
+                cursor = conn.cursor()
+                cursor.execute('SELECT RANDOM_USERNAME FROM USERS WHERE Uname=(?)',(name,))
+                random_username = cursor.fetchone()
+                user_posts = db.get_all_user_posts(random_username[0])
+            
 
             
     def write():
@@ -111,7 +125,11 @@ def main(username,name):
             userkey = str(username)+str(d)
             now = datetime.datetime.now()
             current_time = now.strftime("%H:%M:%S")
-            db.create_newpost(userkey,user_post,d,current_time)           
+            conn = sqlite3.connect('user_record.db')
+            cursor = conn.cursor()
+            cursor.execute('SELECT RANDOM_USERNAME FROM USERS WHERE Uname=(?)',(name,))
+            random_username = cursor.fetchone()
+            db.create_newpost(random_username[0],userkey,user_post,d,current_time)           
             st.success("Data Saved Successfully")
                 
     if user_option=='Write MY Diary':

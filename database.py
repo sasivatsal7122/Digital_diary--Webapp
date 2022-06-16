@@ -32,6 +32,7 @@ def create_userposts_record():
 
     #Creating table as per requirement
     sql ='''CREATE TABLE USERS_POSTS(
+    RANDOM_USERNAME CHAR(20) NOT NULL,
     USERKEY CHAR(20) NOT NULL,
     USER_POST CHAR(2000),
     C_DATE CHAR(20) NOT NULL,
@@ -54,13 +55,13 @@ def create_newuser(RANDOM_USERNAME,uNAME,USERNAME,USER_EMAIL,PASS_WORD):
 
 
     
-def create_newpost(USERKEY,USER_POST,C_DATE,C_TIME):
+def create_newpost(RANDOM_USERNAME,USERKEY,USER_POST,C_DATE,C_TIME):
     conn = sqlite3.connect('diary.db')
     cursor = conn.cursor()
     cursor.execute('SELECT USER_POST FROM USERS_POSTS WHERE USERKEY=(?)',(USERKEY,))
     user_post = cursor.fetchone()
     if user_post==None or len(user_post)==0:
-        cursor.execute('INSERT INTO USERS_POSTS(USERKEY, USER_POST, C_DATE,C_TIME) VALUES (?, ?, ?,?)',(USERKEY, USER_POST, C_DATE,C_TIME))
+        cursor.execute('INSERT INTO USERS_POSTS(RANDOM_USERNAME,USERKEY, USER_POST, C_DATE,C_TIME) VALUES (?,?, ?, ?,?)',(RANDOM_USERNAME,USERKEY, USER_POST, C_DATE,C_TIME))
         conn.commit()
         conn.close()
     else:
@@ -105,5 +106,13 @@ def get_all_usernames():
     return usernames_list   
     
     
+def get_all_user_posts(RANDOM_USERNAME):
+    conn = sqlite3.connect('diary.db')
+    cursor = conn.cursor()
+    posts_list = [posts[0] for posts in cursor.execute("SELECT USER_POST FROM USERS_POSTS WHERE RANDOM_USERNAME=?",(RANDOM_USERNAME,))]
+    return posts_list
+    
+    
+   
 #create_user_record()
 #create_userposts_record()
