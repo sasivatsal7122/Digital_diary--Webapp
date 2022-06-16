@@ -15,3 +15,7 @@
   
   https://user-images.githubusercontent.com/71326149/174106389-ef2c85e0-efa2-4258-b5b1-6c1933de6414.mp4
 
+ 
+ ### Note:
+  -  Planning to add a feature which turns user record into hand written notes and then create a PDF of those notes which user can download
+  - I'm looking for some cool collabrators, fork the repo and make a pr to be a part of digital diary
